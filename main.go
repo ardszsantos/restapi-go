@@ -25,4 +25,5 @@ func getPizzas(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"pizzas": pizzas,
 	})
+
 }
