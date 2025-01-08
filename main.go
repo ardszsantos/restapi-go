@@ -41,6 +41,7 @@ func postPizzas(c *gin.Context) {
 	newPizza.ID = len(pizzas) + 1
 	pizzas = append(pizzas, newPizza)
 	savePizza()
+	c.JSON(201, newPizza)
 }
 
 func getPizzaByID(c *gin.Context) {
