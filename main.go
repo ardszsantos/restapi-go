@@ -38,8 +38,9 @@ func postPizzas(c *gin.Context) {
 		return
 	}
 
+	newPizza.ID = len(pizzas) + 1
 	pizzas = append(pizzas, newPizza)
-
+	savePizza()
 }
 
 func getPizzaByID(c *gin.Context) {
@@ -69,5 +70,19 @@ func loadPizzas() {
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&pizzas); err != nil {
 		fmt.Println("Error decoding JSON:", err)
+	}
+}
+
+func savePizza() {
+	file, err := os.Create("data/pizza.json")
+	if err != nil {
+		fmt.Println("Error file:", err)
+		return
+	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	if err := encoder.Encode(pizzas); err != nil {
+		fmt.Println("Error encoding JSON:", err)
 	}
 }
