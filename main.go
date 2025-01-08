@@ -36,4 +36,5 @@ func postPizzas(c *gin.Context) {
 	}
 
 	pizzas = append(pizzas, newPizza)
+
 }
