@@ -2,6 +2,7 @@ package main
 
 import (
 	"restAPI-go/models"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -16,6 +17,7 @@ func main() {
 	router := gin.Default()
 	router.GET("/pizzas", getPizzas)
 	router.POST("/pizzas", postPizzas)
+	router.GET("/pizzas/:id", getPizzaByID)
 
 	router.Run()
 }
@@ -37,4 +39,21 @@ func postPizzas(c *gin.Context) {
 
 	pizzas = append(pizzas, newPizza)
 
+}
+
+func getPizzaByID(c *gin.Context) {
+	idParam := c.Param("id")
+	id, err := strconv.Atoi(idParam)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"erro": err.Error()})
+		return
+	}
+	for _, p := range pizzas {
+		if p.ID == id {
+			c.JSON(200, p)
+			return
+		}
+	}
+	c.JSON(404, gin.H{"message": "Pizza not found"})
 }
